@@ -9,7 +9,7 @@ const createTokenPair = (payload, privateKey) => {
 
   const refreshToken = jwt.sign(payload, privateKey, {
     algorithm: "RS256",
-    expiresIn: "2 days",
+    expiresIn: "7 days",
   });
 
   return { accessToken, refreshToken };

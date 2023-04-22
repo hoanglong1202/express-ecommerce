@@ -1,11 +1,11 @@
+const AuthService = require("../services/auth.service");
+
 class AuthController {
   signUp = async (req, res, next) => {
     try {
-      console.log("PPPPPPPPPP");
+      const result = await AuthService.signUp(req.body);
 
-      return res.status(201).json({
-        metadata: "shop PRO",
-      });
+      return res.status(201).json(result);
     } catch (error) {
       next(error);
     }
