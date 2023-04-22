@@ -1,0 +1,4 @@
+@url_dev=http://127.0.0.1:3055/v1/api
+
+### SIGNUP
+POST {{url_dev}}/shop/signup
