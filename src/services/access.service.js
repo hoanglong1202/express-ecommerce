@@ -3,7 +3,6 @@ const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const tokenService = require("./token.service");
 const { createTokenPair } = require("../utils/auth.utils");
-const { log } = require("console");
 
 const RoleShop = {
   SHOP: "SHOP",
@@ -12,7 +11,7 @@ const RoleShop = {
   ADMIN: "ADMIN",
 };
 
-class AuthService {
+class AccessService {
   static signUp = async ({ name, email, password }) => {
     try {
       const holderShop = await shopModel.findOne({ email }).lean();
@@ -24,6 +23,7 @@ class AuthService {
       }
 
       const hashPassword = await bcrypt.hash(password, 10);
+      console.log(hashPassword)
       const newShop = await shopModel.create({ name, email, password: hashPassword, roles: [RoleShop.SHOP] });
 
       if (!newShop) {
@@ -64,4 +64,4 @@ class AuthService {
   };
 }
 
-module.exports = AuthService;
+module.exports = AccessService;
