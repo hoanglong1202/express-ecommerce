@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const tokenService = require("./token.service");
 const { createTokenPair } = require("../utils/auth.utils");
+const _ = require("lodash")
 
 const RoleShop = {
   SHOP: "SHOP",
@@ -51,7 +52,7 @@ class AccessService {
       return {
         code: 201,
         metadata: {
-          shop: newShop,
+          shop: _.pick(newShop, ["_id", "name", "email"]),
           tokens,
         },
       };
