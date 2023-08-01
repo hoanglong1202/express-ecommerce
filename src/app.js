@@ -29,4 +29,20 @@ app.use("/", require("./routes"));
 
 // handling error
 
+app.use((_, _, next) => {
+  const error = new Error("Page Not Found");
+  error.code = 404;
+
+  next(error);
+});
+
+app.use((error, _, res) => {
+  const message = error.message || "Internal Server Error";
+  const code = error.code || 500;
+
+  return res.status(code).json({
+    code,
+    message,
+  });
+});
 module.exports = app;
