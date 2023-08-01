@@ -19,10 +19,6 @@ const shopSchema = new Schema(
       required: true,
       unique: true,
     },
-    password: {
-      type: String,
-      required: true,
-    },
     status: {
       type: String,
       enum: ["active", "inactive"],
