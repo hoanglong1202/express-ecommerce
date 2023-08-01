@@ -3,9 +3,10 @@
 ### SIGNUP
 POST {{url_dev}}/shop/signup
 content-type: application/json
+x-api-key: secrectapikey
 
 {
-  "email": "vdhlong1203@gmail.com",
+  "email": "vdhlong1202@gmail.com",
   "name": "Accel",
   "password": "abc123"
 }
