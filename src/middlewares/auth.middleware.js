@@ -1,8 +1,13 @@
-const { BadRequestError } = require("../core/error.response");
+"use-strict";
+const { BadRequestError, UnauthorizedError, NotFoundError } = require("../core/error.response");
+const asyncHandler = require("../helpers/asyncHandler.helpers");
 const ApiKeyService = require("../services/apikey.service");
+const TokenService = require("../services/token.service");
+const jwt = require("jsonwebtoken");
 
 const HEADER = {
   API_KEY: "x-api-key",
+  CLIENT_ID: "x-client-id",
   AUTHORIZATION: "authorization",
 };
 
@@ -46,7 +51,38 @@ const permission = (permission) => {
   };
 };
 
+const authentication = asyncHandler(async (req, res, next) => {
+  const clientId = req.headers[HEADER.CLIENT_ID];
+  if (!clientId) {
+    throw new UnauthorizedError("Invalid request");
+  }
+
+  const accessToken = req.headers[HEADER.AUTHORIZATION];
+  if (!accessToken) {
+    throw new UnauthorizedError("Invalid request");
+  }
+
+  const keyStore = await TokenService.findById(clientId);
+  if (!keyStore) {
+    throw new NotFoundError("Invalid request");
+  }
+
+  try {
+    const { userId } = jwt.verify(accessToken, keyStore.publicKey);
+    if (clientId !== userId) {
+      throw new UnauthorizedError("Invalid request");
+    }
+
+    req.keyStore = keyStore;
+
+    return next();
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = {
   apiKey,
   permission,
+  authentication,
 };

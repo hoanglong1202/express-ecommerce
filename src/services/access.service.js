@@ -6,6 +6,7 @@ const { createTokenPair, generatedToken } = require("../utils/auth.utils");
 const { BadRequestError, ConflictRequestError, UnauthorizedError } = require("../core/error.response");
 const ShopService = require("./shop.service");
 const { getInformationData } = require("../utils");
+const TokenService = require("./token.service");
 
 const RoleShop = {
   SHOP: "SHOP",
@@ -36,10 +37,8 @@ class AccessService {
     });
 
     return {
-      metadata: {
-        shop: getInformationData(shop, ["_id", "name", "email"]),
-        tokens,
-      },
+      shop: getInformationData(shop, ["_id", "name", "email"]),
+      tokens,
     };
   };
 
@@ -66,11 +65,15 @@ class AccessService {
     });
 
     return {
-      metadata: {
-        shop: getInformationData(newShop, ["_id", "name", "email"]),
-        tokens,
-      },
+      shop: getInformationData(newShop, ["_id", "name", "email"]),
+      tokens,
     };
+  };
+
+  static logout = async (keyStore) => {
+    const result = await TokenService.removeById(keyStore._id);
+
+    return result;
   };
 }
 
