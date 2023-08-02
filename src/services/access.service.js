@@ -22,13 +22,11 @@ class AccessService {
     }
 
     const isPasswordLegit = await bcrypt.compare(password, shop.password);
-
     if (!isPasswordLegit) {
       throw new UnauthorizedError("Authentication Error");
     }
 
     const { privateKey, publicKey } = generatedToken();
-
     const tokens = createTokenPair({ userId: shop._id, email }, privateKey);
 
     await tokenService.create({
@@ -59,7 +57,6 @@ class AccessService {
     }
 
     const { privateKey, publicKey } = generatedToken();
-
     const tokens = createTokenPair({ userId: newShop._id, email }, privateKey);
 
     await tokenService.create({
