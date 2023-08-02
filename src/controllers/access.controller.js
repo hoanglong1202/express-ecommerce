@@ -5,8 +5,9 @@ class AccessController {
   signUp = async (req, res, next) => {
     try {
       const result = await AccessService.signUp(req.body);
-
-      return new Created().send(res);
+      new Created({
+        data: result,
+      }).send(res);
     } catch (error) {
       next(error);
     }

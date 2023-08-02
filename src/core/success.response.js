@@ -4,7 +4,7 @@ class SuccessResponse {
   constructor(message = ReasonPhrases.OK, status = StatusCodes.OK, data = {}) {
     this.message = message;
     this.status = status;
-    this.data = message;
+    this.data = data;
   }
 
   send(res) {
@@ -13,12 +13,12 @@ class SuccessResponse {
 }
 
 class Ok extends SuccessResponse {
-  constructor(message = ReasonPhrases.OK, status = StatusCodes.OK, data = {}) {
+  constructor({ message = ReasonPhrases.OK, status = StatusCodes.OK, data = {} }) {
     super(message, status, data);
   }
 }
 class Created extends SuccessResponse {
-  constructor(message = ReasonPhrases.CREATED, status = StatusCodes.CREATED, data = {}, option = {}) {
+  constructor({ message = ReasonPhrases.CREATED, status = StatusCodes.CREATED, data = {}, option = {} }) {
     super(message, status, data);
     this.option = option;
   }
