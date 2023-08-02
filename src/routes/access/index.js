@@ -1,5 +1,5 @@
 const express = require("express");
-const shopController = require("../../controllers/access.controller");
+const accessController = require("../../controllers/access.controller");
 const asyncHandler = require("../../middlewares/asyncHandler.middleware");
 const { apiKey, permission } = require("../../middlewares/auth.middleware");
 const router = express.Router();
@@ -10,6 +10,7 @@ router.use(apiKey);
 router.use(permission("0000"));
 
 // routes
-router.post("/shop/signup", asyncHandler(shopController.signUp));
+router.post("/shop/login", asyncHandler(accessController.login));
+router.post("/shop/signup", asyncHandler(accessController.signUp));
 
 module.exports = router;

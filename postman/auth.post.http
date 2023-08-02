@@ -10,3 +10,13 @@ x-api-key: secrectapikey
   "name": "Accel",
   "password": "abc123"
 }
+
+### LOGIN
+POST {{url_dev}}/shop/login
+content-type: application/json
+x-api-key: secrectapikey
+
+{
+  "email": "vdhlong1202@gmail.com",
+  "password": "abc123"
+}
