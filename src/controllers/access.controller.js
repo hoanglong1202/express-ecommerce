@@ -1,3 +1,4 @@
+const { Created } = require("../core/success.response");
 const AccessService = require("../services/access.service");
 
 class AccessController {
@@ -5,7 +6,7 @@ class AccessController {
     try {
       const result = await AccessService.signUp(req.body);
 
-      return res.status(201).json(result);
+      return new Created().send(res);
     } catch (error) {
       next(error);
     }
