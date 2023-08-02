@@ -1,7 +1,7 @@
 const express = require("express");
 const accessController = require("../../controllers/access.controller");
-const asyncHandler = require("../../middlewares/asyncHandler.middleware");
 const { apiKey, permission } = require("../../middlewares/auth.middleware");
+const asyncHandler = require("../../helpers/asyncHandler.helpers");
 const router = express.Router();
 
 // check api key
