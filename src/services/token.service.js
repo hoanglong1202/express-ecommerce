@@ -7,6 +7,7 @@ class TokenService {
       const filter = { user: userId };
       const update = {
         publicKey: publicKeyString,
+        refreshTokensUsed: [],
         refreshToken,
       };
       const options = {

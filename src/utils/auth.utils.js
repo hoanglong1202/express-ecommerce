@@ -1,5 +1,6 @@
 "use strict";
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 
 const createTokenPair = (payload, privateKey) => {
   const accessToken = jwt.sign(payload, privateKey, {
@@ -15,6 +16,15 @@ const createTokenPair = (payload, privateKey) => {
   return { accessToken, refreshToken };
 };
 
+const generatedToken = () => {
+  return crypto.generateKeyPairSync("rsa", {
+    modulusLength: 4096,
+    publicKeyEncoding: { type: "pkcs1", format: "pem" },
+    privateKeyEncoding: { type: "pkcs1", format: "pem" },
+  });
+};
+
 module.exports = {
   createTokenPair,
+  generatedToken,
 };

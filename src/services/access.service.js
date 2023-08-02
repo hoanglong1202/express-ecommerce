@@ -1,11 +1,11 @@
 const shopModel = require("../models/shop.model");
 const bcrypt = require("bcrypt");
-const crypto = require("crypto");
 const tokenService = require("./token.service");
-const { createTokenPair } = require("../utils/auth.utils");
-const _ = require("lodash");
+const { createTokenPair, generatedToken } = require("../utils/auth.utils");
+
 const { BadRequestError, ConflictRequestError, UnauthorizedError } = require("../core/error.response");
 const ShopService = require("./shop.service");
+const { getInformationData } = require("../utils");
 
 const RoleShop = {
   SHOP: "SHOP",
@@ -27,11 +27,7 @@ class AccessService {
       throw new UnauthorizedError("Authentication Error");
     }
 
-    const { privateKey, publicKey } = crypto.generateKeyPairSync("rsa", {
-      modulusLength: 4096,
-      publicKeyEncoding: { type: "pkcs1", format: "pem" },
-      privateKeyEncoding: { type: "pkcs1", format: "pem" },
-    });
+    const { privateKey, publicKey } = generatedToken();
 
     const tokens = createTokenPair({ userId: shop._id, email }, privateKey);
 
@@ -43,7 +39,7 @@ class AccessService {
 
     return {
       metadata: {
-        shop: _.pick(shop, ["_id", "name", "email"]),
+        shop: getInformationData(shop, ["_id", "name", "email"]),
         tokens,
       },
     };
@@ -62,11 +58,7 @@ class AccessService {
       throw new ConflictRequestError();
     }
 
-    const { privateKey, publicKey } = crypto.generateKeyPairSync("rsa", {
-      modulusLength: 4096,
-      publicKeyEncoding: { type: "pkcs1", format: "pem" },
-      privateKeyEncoding: { type: "pkcs1", format: "pem" },
-    });
+    const { privateKey, publicKey } = generatedToken();
 
     const tokens = createTokenPair({ userId: newShop._id, email }, privateKey);
 
@@ -78,7 +70,7 @@ class AccessService {
 
     return {
       metadata: {
-        shop: _.pick(newShop, ["_id", "name", "email"]),
+        shop: getInformationData(newShop, ["_id", "name", "email"]),
         tokens,
       },
     };
