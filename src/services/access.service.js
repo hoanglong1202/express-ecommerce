@@ -75,6 +75,44 @@ class AccessService {
 
     return result;
   };
+
+  static handlerRefreshToken = async ({ keyStore, user, refreshToken }) => {
+    const { email } = user;
+    const { refreshTokensUsed } = keyStore;
+
+    if (refreshTokensUsed.includes(refreshToken)) {
+      throw new BadRequestError("Something wrong, please re-login");
+    }
+
+    const shop = await ShopService.findOne(email);
+    if (!shop) {
+      throw new ConflictRequestError();
+    }
+
+    const { privateKey, publicKey } = generatedToken();
+    const tokens = createTokenPair({ userId: shop._id, email }, privateKey);
+
+    // update key store
+    await tokenService.update({
+      userId: shop._id,
+      publicKey,
+      refreshToken: tokens.refreshToken,
+    });
+    // await keyStore.update({
+    //   $set: {
+    //     publicKey,
+    //     refreshToken: tokens.refreshToken,
+    //   },
+    //   $addToSet: {
+    //     refreshTokensUsed: refreshToken,
+    //   },
+    // });
+
+    return {
+      shop: getInformationData(shop, ["_id", "name", "email"]),
+      tokens,
+    };
+  };
 }
 
 module.exports = AccessService;

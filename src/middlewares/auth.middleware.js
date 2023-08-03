@@ -9,6 +9,7 @@ const HEADER = {
   API_KEY: "x-api-key",
   CLIENT_ID: "x-client-id",
   AUTHORIZATION: "authorization",
+  REFRESH_TOKEN: "x-rtoken-id",
 };
 
 const apiKey = async (req, res, next) => {
@@ -67,6 +68,21 @@ const authentication = asyncHandler(async (req, res, next) => {
     throw new NotFoundError("Invalid request");
   }
 
+  const refreshToken = req.headers[HEADER.REFRESH_TOKEN];
+  if (refreshToken) {
+    try {
+      const decodedUser = jwt.verify(refreshToken, keyStore.publicKey);
+
+      req.user = decodedUser;
+      req.keyStore = keyStore;
+      req.refreshToken = refreshToken;
+      return next();
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  // Note: toi uu
   try {
     const { userId } = jwt.verify(accessToken, keyStore.publicKey);
     if (clientId !== userId) {
@@ -77,7 +93,7 @@ const authentication = asyncHandler(async (req, res, next) => {
 
     return next();
   } catch (error) {
-    next(error);
+    throw error;
   }
 });
 

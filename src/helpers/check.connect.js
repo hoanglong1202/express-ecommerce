@@ -1,8 +1,10 @@
+"use strict";
+
 const mongoose = require("mongoose");
 const os = require("os");
 const process = require("process");
 
-const SECONDS = 5000;
+const SECONDS = 60 * 1000;
 
 const countConnections = () => {
   const connects = mongoose.connections.length;

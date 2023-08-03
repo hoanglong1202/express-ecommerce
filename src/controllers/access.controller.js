@@ -25,6 +25,18 @@ class AccessController {
       data: result,
     }).send(res);
   };
+
+  handlerRefreshToken = async (req, res, next) => {
+    const result = await AccessService.handlerRefreshToken({
+      keyStore: req.keyStore,
+      user: req.user,
+      refreshToken: req.refreshToken,
+    });
+
+    new Ok({
+      data: result,
+    }).send(res);
+  };
 }
 
 module.exports = new AccessController();
