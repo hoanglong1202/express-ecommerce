@@ -98,15 +98,6 @@ class AccessService {
       publicKey,
       refreshToken: tokens.refreshToken,
     });
-    // await keyStore.update({
-    //   $set: {
-    //     publicKey,
-    //     refreshToken: tokens.refreshToken,
-    //   },
-    //   $addToSet: {
-    //     refreshTokensUsed: refreshToken,
-    //   },
-    // });
 
     return {
       shop: getInformationData(shop, ["_id", "name", "email"]),
