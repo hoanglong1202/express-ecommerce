@@ -1,5 +1,6 @@
 "use-strict";
 const { model, Schema } = require("mongoose"); // Erase if already required
+const { default: slugify } = require("slugify");
 
 const DOCUMENT_NAME = "Product";
 const COLLECTION_NAME = "Products";
@@ -13,6 +14,10 @@ const productSchema = new Schema(
     product_thumb: {
       type: String,
       required: true,
+      trim: true,
+    },
+    product_slug: {
+      type: String,
       trim: true,
     },
     product_description: {
@@ -38,12 +43,41 @@ const productSchema = new Schema(
       type: Schema.Types.Mixed,
       required: true,
     },
+    product_ratingAverage: {
+      type: Number,
+      default: 4.5,
+      min: [1, "Rating must be above 1.0"],
+      max: [5, "Rating must be below 5.0"],
+    },
+    product_variation: {
+      type: Array,
+      default: [],
+    },
+    isDraft: {
+      type: Boolean,
+      required: true,
+      default: true,
+      index: true,
+      select: false,
+    },
+    isPublished: {
+      type: Boolean,
+      required: true,
+      default: false,
+      index: true,
+      select: false,
+    },
   },
   {
     timestamps: true,
     collection: COLLECTION_NAME,
   }
 );
+
+productSchema.pre("save", (next) => {
+  this.product_slug = slugify(this.product_name, { lower: true });
+  next();
+});
 
 // define other product type
 
