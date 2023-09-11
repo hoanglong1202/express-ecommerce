@@ -1,5 +1,5 @@
 const { BadRequestError } = require("../core/error.response");
-const { Created } = require("../core/success.response");
+const { Created, Ok } = require("../core/success.response");
 const ProductService = require("../services/product.service");
 
 class ProductController {
@@ -14,6 +14,23 @@ class ProductController {
     }
 
     return new Created({
+      data: result,
+    }).send(res);
+  };
+
+  /**
+   * @description Get all draft product
+   * @param {Number} limit
+   * @param {Number} skip
+   * @return {JSON}
+   */
+
+  findAllDraftForShop = async (req, res, next) => {
+    const result = await ProductService.findAllDraftForShop({
+      product_shop: req.user.userId,
+    });
+
+    return new Ok({
       data: result,
     }).send(res);
   };

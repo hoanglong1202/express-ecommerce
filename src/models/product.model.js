@@ -37,7 +37,8 @@ const productSchema = new Schema(
       enum: ["Electronics", "Clothing", "Furniture"],
     },
     product_shop: {
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref: "Shop",
     },
     product_attributes: {
       type: Schema.Types.Mixed,
@@ -74,7 +75,7 @@ const productSchema = new Schema(
   }
 );
 
-productSchema.pre("save", (next) => {
+productSchema.pre("save", function (next) {
   this.product_slug = slugify(this.product_name, { lower: true });
   next();
 });
