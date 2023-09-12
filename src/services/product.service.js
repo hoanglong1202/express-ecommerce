@@ -1,6 +1,6 @@
 const { BadRequestError } = require("../core/error.response");
 const { product, clothing, electronics } = require("../models/product.model");
-const { findAllDraftForShop } = require("./repositories/product.repo");
+const { findAllDraftForShop, findAllPublishForShop } = require("./repositories/product.repo");
 
 class ProductFactory {
   static productRegistry = {};
@@ -23,6 +23,12 @@ class ProductFactory {
     const query = { product_shop, isDraft: true };
 
     return await findAllDraftForShop({ query, limit, skip });
+  }
+
+  static async findAllPublishForShop({ product_shop, limit = 50, skip = 0 }) {
+    const query = { product_shop, isPublished: true };
+
+    return await findAllPublishForShop({ query, limit, skip });
   }
 }
 

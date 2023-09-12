@@ -34,6 +34,16 @@ class ProductController {
       data: result,
     }).send(res);
   };
+
+  findAllPublishForShop = async (req, res, next) => {
+    const result = await ProductService.findAllPublishForShop({
+      product_shop: req.user.userId,
+    });
+
+    return new Ok({
+      data: result,
+    }).send(res);
+  };
 }
 
 module.exports = new ProductController();
