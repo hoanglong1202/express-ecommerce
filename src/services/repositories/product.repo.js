@@ -45,6 +45,32 @@ const unPublishProductByShop = async ({ product_shop, product_id }) => {
   return modifiedCount;
 };
 
+const searchProductByUser = async ({ keySearch }) => {
+  const regex = new RegExp(keySearch);
+  const foundProduct = await product
+    .find(
+      {
+        $text: {
+          $search: regex,
+        },
+        isDraft: false,
+      },
+      {
+        score: {
+          $meta: "textScore",
+        },
+      }
+    )
+    .sort({
+      score: {
+        $meta: "textScore",
+      },
+    })
+    .lean();
+
+  return foundProduct;
+};
+
 const queryProduct = async ({ query, limit, skip }) => {
   return await product
     .find(query)
@@ -61,4 +87,5 @@ module.exports = {
   findAllPublishForShop,
   publishProductByShop,
   unPublishProductByShop,
+  searchProductByUser,
 };

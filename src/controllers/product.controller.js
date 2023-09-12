@@ -25,8 +25,8 @@ class ProductController {
    * @return {JSON}
    */
 
-  findAllDraftForShop = async (req, res, next) => {
-    const result = await ProductService.findAllDraftForShop({
+  getAllDraftProductForShop = async (req, res, next) => {
+    const result = await ProductService.getAllDraftProductForShop({
       product_shop: req.user.userId,
     });
 
@@ -35,8 +35,8 @@ class ProductController {
     }).send(res);
   };
 
-  findAllPublishForShop = async (req, res, next) => {
-    const result = await ProductService.findAllPublishForShop({
+  getAllPublishProductForShop = async (req, res, next) => {
+    const result = await ProductService.getAllPublishProductForShop({
       product_shop: req.user.userId,
     });
 
@@ -60,6 +60,16 @@ class ProductController {
     const result = await ProductService.unPublishProductByShop({
       product_shop: req.user.userId,
       product_id: req.params.id,
+    });
+
+    return new Ok({
+      data: result,
+    }).send(res);
+  };
+
+  getListSearchProduct = async (req, res, next) => {
+    const result = await ProductService.getListSearchProduct({
+      keySearch: req.params.keySearch,
     });
 
     return new Ok({
