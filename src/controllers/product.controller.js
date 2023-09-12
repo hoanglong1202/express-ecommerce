@@ -44,6 +44,28 @@ class ProductController {
       data: result,
     }).send(res);
   };
+
+  publishProductByShop = async (req, res, next) => {
+    const result = await ProductService.publishProductByShop({
+      product_shop: req.user.userId,
+      product_id: req.params.id,
+    });
+
+    return new Ok({
+      data: result,
+    }).send(res);
+  };
+
+  unPublishProductByShop = async (req, res, next) => {
+    const result = await ProductService.unPublishProductByShop({
+      product_shop: req.user.userId,
+      product_id: req.params.id,
+    });
+
+    return new Ok({
+      data: result,
+    }).send(res);
+  };
 }
 
 module.exports = new ProductController();
