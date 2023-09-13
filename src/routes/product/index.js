@@ -5,6 +5,8 @@ const productController = require("../../controllers/product.controller");
 const router = express.Router();
 
 router.get("/search/:keySearch", asyncHandler(productController.getListSearchProduct));
+router.get("", asyncHandler(productController.findAllProducts));
+router.get("/:id", asyncHandler(productController.findProduct));
 
 router.use(apiKey);
 router.use(permission("0000"));

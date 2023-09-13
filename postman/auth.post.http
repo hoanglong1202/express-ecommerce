@@ -80,6 +80,14 @@ x-rtoken-id: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGNhOGJkMzJjMT
 GET {{url_dev}}/product/search/Shirt 
 content-type: application/json
 
+### GET ALL PRODUCT
+GET {{url_dev}}/product
+content-type: application/json
+
+### GET PRODUCT DETAIL
+GET {{url_dev}}/product/65008b4e09994bef47972dc8
+content-type: application/json
+
 ### PUBLISH PRODUCT
 POST {{url_dev}}/product/publish/64ff3eccd02f39200627c861
 content-type: application/json

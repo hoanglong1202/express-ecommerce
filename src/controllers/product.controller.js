@@ -76,6 +76,24 @@ class ProductController {
       data: result,
     }).send(res);
   };
+
+  findAllProducts = async (req, res, next) => {
+    const result = await ProductService.findAllProducts(req.query);
+
+    return new Ok({
+      data: result,
+    }).send(res);
+  };
+
+  findProduct = async (req, res, next) => {
+    const result = await ProductService.findProduct({
+      product_id: req.params.id,
+    });
+
+    return new Ok({
+      data: result,
+    }).send(res);
+  };
 }
 
 module.exports = new ProductController();
