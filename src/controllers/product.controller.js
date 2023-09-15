@@ -94,6 +94,18 @@ class ProductController {
       data: result,
     }).send(res);
   };
+
+  updateProduct = async (req, res, next) => {
+    const result = await ProductService.updateProduct({
+      type: req.body.product_type,
+      product_id: req.params.id,
+      payload: req.body,
+    });
+
+    return new Ok({
+      data: result,
+    }).send(res);
+  };
 }
 
 module.exports = new ProductController();

@@ -12,7 +12,9 @@ router.use(apiKey);
 router.use(permission("0000"));
 router.use(authentication);
 
+
 router.post("", asyncHandler(productController.createProduct));
+router.patch("/:id", asyncHandler(productController.updateProduct));
 router.post("/publish/:id", asyncHandler(productController.publishProductByShop));
 router.post("/unpublish/:id", asyncHandler(productController.unPublishProductByShop));
 

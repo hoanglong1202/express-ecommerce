@@ -1,5 +1,6 @@
 const { BadRequestError } = require("../core/error.response");
 const { product, clothing, electronics } = require("../models/product.model");
+const { removeUndefinedObject, updateNestedObjectParse } = require("../utils");
 const {
   findAllDraftForShop,
   findAllPublishForShop,
@@ -8,6 +9,7 @@ const {
   searchProductByUser,
   findAllProducts,
   findProduct,
+  updateProduct,
 } = require("./repositories/product.repo");
 
 class ProductFactory {
@@ -64,6 +66,16 @@ class ProductFactory {
   static async findProduct({ product_id }) {
     return await findProduct({ product_id, unselect: ["__v"] });
   }
+
+  static async updateProduct({ type, product_id, payload }) {
+    const productClass = this.productRegistry[type];
+
+    if (!productClass) {
+      throw new BadRequestError(`Invalid product type: ${type}`);
+    }
+
+    return new productClass(payload).updateProduct(product_id);
+  }
 }
 
 class Product {
@@ -99,6 +111,20 @@ class Product {
       console.log(error);
     }
   }
+
+  async updateProduct(product_id) {
+    try {
+      const result = await updateProduct({
+        product_id,
+        payload: updateNestedObjectParse(this),
+        model: product,
+      });
+
+      return result;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 class Clothing extends Product {
@@ -119,6 +145,22 @@ class Clothing extends Product {
     }
 
     return newProduct;
+  }
+
+  async updateProduct(product_id) {
+    const payload = removeUndefinedObject(this);
+
+    if (payload.product_attributes) {
+      await updateProduct({
+        product_id,
+        payload: updateNestedObjectParse(payload.product_attributes),
+        model: clothing,
+      });
+    }
+
+    const result = await super.updateProduct(product_id);
+
+    return result;
   }
 }
 
