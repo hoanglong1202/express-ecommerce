@@ -1,6 +1,7 @@
 const { BadRequestError } = require("../core/error.response");
 const { product, clothing, electronics } = require("../models/product.model");
 const { removeUndefinedObject, updateNestedObjectParse } = require("../utils");
+const { createInventory } = require("./repositories/inventory.repo");
 const {
   findAllDraftForShop,
   findAllPublishForShop,
@@ -105,6 +106,14 @@ class Product {
         ...this,
         _id: product_id,
       });
+
+      if (result) {
+        await createInventory({
+          product_id: result._id,
+          shop_id: result.product_shop,
+          stock: result.product_quantity,
+        });
+      }
 
       return result;
     } catch (error) {

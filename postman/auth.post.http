@@ -46,11 +46,11 @@ authorization: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGNhOGJkMzJj
 x-rtoken-id: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGNhOGJkMzJjMTUxYjQyNWJhZDk5MzIiLCJlbWFpbCI6InZkaGxvbmcxMjAyQGdtYWlsLmNvbSIsImlhdCI6MTY5NDM0NzkzNSwiZXhwIjoxNjk0OTUyNzM1fQ.CHRsjL5VWbc08CWT25pIf1C3E1ge3-UpABEkqORIoyy1eWz4ZnkFGwAb-mN979kKyFBwKuc3I-DxDJ7TCHYlMsJURkV5FDNKwdcSvc7dUcMHdE4Xia8dKwe2iPKx8AQzi2Do4jsv9g191wo2uCQBjBX5pKFNWSm-mjzofx2qrgfHFIp_D5_cpJb4RhKpyx5w0ZRb3MXLpsICGM-570OivKaq75fmkMpHL26_hzzUgAek0YAaSR2ThCZBTJcMFErbdnKwATD3oAOgPNJA3dtvM0pw7cYk0JoFCTz54kj6_7c5j5ZleTb0d4JQlXzLJjhJyUPn8SseyFjww2rZzby_t9pU9euDjvCPzg1DmHVxki9ZEnjoWVCBievnrF7lSFUoRvlcYkmUvghzWSdjfaRZhzJhOLnbep2i0nL7DbwY0Za3mrXUVHLINBqxnjMBTxcjLq-VDzEx-STc3ShNaHS7F_5-kU6b675cNtYPQ3Kr21qKLWMswPH44rw0SI7qaC4tFCj_VE3WPRwxeOxAFL8__argMN8JeFrsEwevQoseeVZB39bK8ddvLlp1xxqDw2TF9eFRrbi5zY0ecxjla9j0vrm4ScweBdJge1XJSmDgZek6UjAzf1rYOl75c5zUwDAM1uxpDff_4TjwR6Y9m8L0gSZSq1gDw4YWhBr7xBXdl94
 
 {
-  "product_name": "Red Shirt",
+  "product_name": "Red Pantsu",
   "product_thumb": "https://www.youtube.com/watch?v=ZD5cWfsZO3A&t=74s",
   "product_description": "Uniqlo top flag branch, high quality",
   "product_price": 100,
-  "product_quantity": 13,
+  "product_quantity": 230,
   "product_type": "Clothing",
   "product_attributes": {
     "brand": "Uniqlo",
