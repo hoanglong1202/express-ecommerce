@@ -2,7 +2,7 @@
 const { BadRequestError, NotFoundError } = require("../core/error.response");
 const { convertToObjectIdMongoDb } = require("../utils");
 const discount = require("./discount.service");
-const { findAllDiscountCodeUnselect } = require("./repositories/discount.repo");
+const { findAllDiscountCodeUnselect, findDiscount } = require("./repositories/discount.repo");
 
 class DiscountService {
   static async createDiscount({
@@ -118,6 +118,62 @@ class DiscountService {
     const result = await findAllDiscountCodeUnselect(query);
 
     return result;
+  }
+
+  static async getDiscountAmount({ discount_code, discount_shop, user_id, products }) {
+    const foundDiscount = await findDiscount({ discount_code, discount_shop });
+
+    if (!foundDiscount) {
+      throw new NotFoundError("Discount not exist");
+    }
+
+    const {
+      discount_start_date,
+      discount_end_date,
+      discount_is_active,
+      discount_max_uses,
+      discount_min_order_value,
+      discount_max_uses_per_uses,
+      discount_users_used,
+      discount_type,
+      discount_value,
+    } = foundDiscount;
+
+    if (new Date() < new Date(discount_start_date) || new Date() > new Date(discount_end_date)) {
+      throw new BadRequestError("Discount date not valid");
+    }
+
+    if (!discount_is_active) {
+      throw new BadRequestError("Discount is inactive");
+    }
+
+    if (!discount_max_uses) {
+      throw new BadRequestError("Discount is out of number!");
+    }
+
+    const totalOrder = products.reduce((acc, product) => {
+      return acc + product.price * product.quantity;
+    }, 0);
+
+    if (discount_min_order_value > 0 && totalOrder < discount_min_order_value) {
+      throw new BadRequestError("Discount require a minimum of value: " + discount_min_order_value);
+    }
+
+    if (discount_max_uses_per_uses) {
+      const userCount = discount_users_used.find((x) => x.user_id === user_id);
+
+      if (userCount >= discount_max_uses_per_uses) {
+        throw new BadRequestError("Discount is reach the maximum use");
+      }
+    }
+
+    const amount = discount_type === "fixed_amount" ? discount_value : totalOrder * (discount_value / 100);
+
+    return {
+      totalOrder,
+      amount,
+      totalPrice: totalOrder - amount,
+    };
   }
 }
 

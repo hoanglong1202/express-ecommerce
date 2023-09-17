@@ -64,6 +64,12 @@ const discountSchema = new Schema(
       require: true,
       enum: ["all", "specific"],
     },
+    discount_type: {
+      type: String,
+      require: true,
+      default: 'fixed_amount',
+      enum: ["fixed_amount", "percentage"],
+    },
     discount_products: {
       type: Array,
       default: [],
