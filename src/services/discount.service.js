@@ -160,7 +160,7 @@ class DiscountService {
     }
 
     if (discount_max_uses_per_uses) {
-      const userCount = discount_users_used.find((x) => x.user_id === user_id);
+      const userCount = discount_users_used.find((x) => x === user_id);
 
       if (userCount >= discount_max_uses_per_uses) {
         throw new BadRequestError("Discount is reach the maximum use");
@@ -174,6 +174,35 @@ class DiscountService {
       amount,
       totalPrice: totalOrder - amount,
     };
+  }
+
+  static async deleteDiscount({ discount_code, discount_shop, user_id }) {
+    const result = await discount.findOneAndDelete({
+      discount_shop: convertToObjectIdMongoDb(discount_shop),
+      discount_code,
+    });
+
+    return result;
+  }
+
+  static async cancelDiscount({ discount_code, discount_shop }) {
+    const foundDiscount = await findDiscount({ discount_code, discount_shop });
+
+    if (!foundDiscount) {
+      throw new NotFoundError("Discount not exist");
+    }
+
+    const result = await discount.findOneAndUpdate(foundDiscount._id, {
+      $pull: {
+        discount_users_used: user_id,
+      },
+      $inc: {
+        discount_max_uses: +1,
+        discount_users_count: -1,
+      },
+    });
+
+    return result;
   }
 }
 
