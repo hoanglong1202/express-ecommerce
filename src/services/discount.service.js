@@ -1,8 +1,9 @@
 "use-strict";
 const { BadRequestError, NotFoundError } = require("../core/error.response");
 const { convertToObjectIdMongoDb } = require("../utils");
-const discount = require("./discount.service");
 const { findAllDiscountCodeUnselect, findDiscount } = require("./repositories/discount.repo");
+const discount = require("../models/discount.model");
+const { findAllProducts } = require("./repositories/product.repo");
 
 class DiscountService {
   static async createDiscount({
@@ -18,24 +19,16 @@ class DiscountService {
     discount_max_uses_per_uses,
     discount_min_order_value,
     discount_shop,
+    discount_type,
     discount_is_active,
     discount_apply_to,
     discount_products,
   }) {
-    if (new Date() < new Date(discount_start_date) || new Date() > new Date(discount_end_date)) {
-      throw new BadRequestError("Invalid Date Range");
-    }
-
     if (new Date(discount_start_date) >= new Date(discount_end_date)) {
       throw new BadRequestError("Invalid Date Range");
     }
 
-    const foundDiscount = await discount
-      .findOne({
-        discount_shop: convertToObjectIdMongoDb(discount_shop),
-        discount_code,
-      })
-      .lean();
+    const foundDiscount = await findDiscount({ discount_code, discount_shop, model: discount });
 
     if (foundDiscount && foundDiscount.discount_is_active) {
       throw new BadRequestError("Discount not valid");
@@ -56,6 +49,7 @@ class DiscountService {
       discount_shop,
       discount_is_active,
       discount_apply_to,
+      discount_type,
       discount_products: discount_apply_to === "all" ? [] : discount_products,
     });
 
@@ -65,20 +59,15 @@ class DiscountService {
   // async updateDiscount() {}
 
   static async getAllDiscountCodeWithProduct({ discount_code, discount_shop, limit, page }) {
-    const foundDiscount = await discount
-      .findOne({
-        discount_shop: convertToObjectIdMongoDb(discount_shop),
-        discount_code,
-      })
-      .lean();
+    const foundDiscount = await findDiscount({ discount_code, discount_shop, model: discount });
 
     if (!foundDiscount || !foundDiscount.discount_is_active) {
       throw new NotFoundError("Discount not exist");
     }
 
     const query = {
-      limit: +limit,
-      page: +page,
+      limit: +limit || 50,
+      page: +page || 1,
       sort: "ctime",
       select: ["product_name", "_id"],
     };
@@ -108,28 +97,25 @@ class DiscountService {
         discount_shop: convertToObjectIdMongoDb(discount_shop),
         discount_is_active: true,
       },
-      limit: +limit,
-      page: +page,
+      limit: +limit || 50,
+      page: +page || 1,
       sort: "ctime",
       unselect: ["__v"],
       model: discount,
     };
-
+    console.log("AAAAAAAAAAA")
     const result = await findAllDiscountCodeUnselect(query);
 
     return result;
   }
 
   static async getDiscountAmount({ discount_code, discount_shop, user_id, products }) {
-    const foundDiscount = await findDiscount({ discount_code, discount_shop });
-
+    const foundDiscount = await findDiscount({ discount_code, discount_shop, model: discount });
     if (!foundDiscount) {
       throw new NotFoundError("Discount not exist");
     }
 
     const {
-      discount_start_date,
-      discount_end_date,
       discount_is_active,
       discount_max_uses,
       discount_min_order_value,
@@ -138,10 +124,6 @@ class DiscountService {
       discount_type,
       discount_value,
     } = foundDiscount;
-
-    if (new Date() < new Date(discount_start_date) || new Date() > new Date(discount_end_date)) {
-      throw new BadRequestError("Discount date not valid");
-    }
 
     if (!discount_is_active) {
       throw new BadRequestError("Discount is inactive");
@@ -167,7 +149,7 @@ class DiscountService {
       }
     }
 
-    const amount = discount_type === "fixed_amount" ? discount_value : totalOrder * (discount_value / 100);
+    const amount = discount_type === "fixed_amount" ? discount_value : Math.round(totalOrder * (discount_value / 100));
 
     return {
       totalOrder,
@@ -186,7 +168,7 @@ class DiscountService {
   }
 
   static async cancelDiscount({ discount_code, discount_shop }) {
-    const foundDiscount = await findDiscount({ discount_code, discount_shop });
+    const foundDiscount = await findDiscount({ discount_code, discount_shop, model: discount });
 
     if (!foundDiscount) {
       throw new NotFoundError("Discount not exist");

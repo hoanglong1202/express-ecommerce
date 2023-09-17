@@ -124,3 +124,67 @@ x-rtoken-id: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGNhOGJkMzJjMT
     "size": "ML"
   }
 }
+
+### CREATE DISCOUNT
+POST {{url_dev}}/discount
+content-type: application/json
+x-api-key: secrectapikey
+x-client-id: 64ca8bd32c151b425bad9932
+authorization: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGNhOGJkMzJjMTUxYjQyNWJhZDk5MzIiLCJlbWFpbCI6InZkaGxvbmcxMjAyQGdtYWlsLmNvbSIsImlhdCI6MTY5NDk1ODc4MSwiZXhwIjoxNjk1MTMxNTgxfQ.IO0EHLPrQJ5aZVLLDDgzj5rqcnrn6ZjkHJyiPC1j2td9my4lnFSTDZ6GZcqhuqgSIIp4JNUvaV8fHjn1kwEMhFHO_uWBjAlWit7H2ms2xb6BVLOxH06SZxR4UAzOP6Ab_8Bt90ISbiw4kH3JNaWtbvJknT2vF-xJoKpgHH77Kn_eBdVmQXat82BYifum5FdkAHUprQqRPjo0_CN9NW1gngY52Zk_F2scpWoA8bGdpWqecY9-bgY4R7Lz-G5s9DZ5vUBknWeuEAJ0mZwROi4nXC7dpt1bzEsoN0KkORn4doWuMbgRxHel2aMq3FPim01WhldO9ivUlHoLQ_6lwnJazqEDbjjBXfR8RzQXxK5fW1kUSDJyclSz5zIgzcGbnR5nxMvVkCfhL4JVCeZXYlXhCEa_JHoRP6z0AaGQztxo_D8PFP2r96nMoPxBUh_Omk7HH3x8xzW8ERhYANlW96ALOvINvenikpnXp-xRFQIacUlkPGhkn-83kDKtIB-Fduxf47e78gbuXsMYTMSWInqDInLr0426vGu-AJ8fmJAdV4Gn-9oHBEw78C94y6aZfrrrG7LS30NeAECNS62ra2jPhi4nNUoT1ss3_Ggpzarl_bFnv2zE6jmvhvrnQpex7WdpVsd5HjSnmlVB8eaDI1MbvRrwku17j4BKWCW_B3AIWsw
+x-rtoken-id: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGNhOGJkMzJjMTUxYjQyNWJhZDk5MzIiLCJlbWFpbCI6InZkaGxvbmcxMjAyQGdtYWlsLmNvbSIsImlhdCI6MTY5NDk1ODc4MSwiZXhwIjoxNjk1NTYzNTgxfQ.SVARJo2kAXPhgAO85eincoOFjSua-Dni7xHL48zuh2jpP6x_1U7uZll3GYqS4D2blG85-O7HgRHTECe-vaBalKISlVbGJFb1-LUwXWkFmIop0NoSAsLiR9pva0sIEcG4wBSLx13IGrk1l7jx6wvRuMTPX1bJWVF571u0VqLvAEfmxEdl1cRdfzFizQm_Qtkt_7OGCYyaydPQejINtaIK2q9_V3ig9sq64gz8B-BarPZf2sj0YKGV9eSLci5QJUGjgYYFykHe3qYtOFFvGnMDOt5HMxNvLrq3c1bB6Uj2Wg2g9f32yK7OpZKk26ZA1CelBtMQfkoqaB8pOJQbNb7E5I_28zD4OPCnv4UHjyMQEyMo6uI6P-wbL6KI7pL8PXf0jVdLQNOwlWVBwVn5n5Ay_chV53eRsqGt2BJbycQNYJrAmLqCMblk8cjTsl2siDEQCIh2q_RqDU9aJ7Qee3AESwMqabElKMH6WOH1H4vOacAGc6LPpZitQLxVLt6kroJbiA3bIgwDvb06-UP8Yrjnb01pYn0WuVstAXfQcCCP5CuXHtSZ4eG-Vhb1Jazs4UpQBE4tmT7c7PcNb7_3M7-FBp2uV3c4DPGYPIAlS7a340j3aNLaYA8AcnMacG3EjQ1xQHaX7pq-_7gb57aF2pQKK6ALFn95ge5u3g4VwRepRmM
+
+{
+    "discount_name": "Mostover Discord",
+    "discount_description": "Discount dop dop dis dis",
+    "discount_value": 3,
+    "discount_code": "ACCEL-1202",
+    "discount_start_date": "2023-09-17 08:44:00",
+    "discount_end_date": "2023-10-17 08:00:00",
+    "discount_max_uses": 100,
+    "discount_users_count": 0,
+    "discount_users_used": [],
+    "discount_max_uses_per_uses": 1,
+    "discount_min_order_value": 20000,
+    "discount_is_active": true,
+    "discount_type": "percentage",
+    "discount_apply_to": "specific",
+    "discount_products": ["64ff3eccd02f39200627c861", "65008b4e09994bef47972dc8"]
+}
+
+### GET LIST PRODUCT USED DISCOUNT 
+GET {{url_dev}}/discount/list-product-code?discount_code=ACCEL-1202&discount_shop=64ca8bd32c151b425bad9932
+content-type: application/json
+
+### GET LIST DISCOUNT BY SHOP
+GET {{url_dev}}/discount?discount_shop=64ca8bd32c151b425bad9932
+content-type: application/json
+x-api-key: secrectapikey
+x-client-id: 64ca8bd32c151b425bad9932
+authorization: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGNhOGJkMzJjMTUxYjQyNWJhZDk5MzIiLCJlbWFpbCI6InZkaGxvbmcxMjAyQGdtYWlsLmNvbSIsImlhdCI6MTY5NDk1ODc4MSwiZXhwIjoxNjk1MTMxNTgxfQ.IO0EHLPrQJ5aZVLLDDgzj5rqcnrn6ZjkHJyiPC1j2td9my4lnFSTDZ6GZcqhuqgSIIp4JNUvaV8fHjn1kwEMhFHO_uWBjAlWit7H2ms2xb6BVLOxH06SZxR4UAzOP6Ab_8Bt90ISbiw4kH3JNaWtbvJknT2vF-xJoKpgHH77Kn_eBdVmQXat82BYifum5FdkAHUprQqRPjo0_CN9NW1gngY52Zk_F2scpWoA8bGdpWqecY9-bgY4R7Lz-G5s9DZ5vUBknWeuEAJ0mZwROi4nXC7dpt1bzEsoN0KkORn4doWuMbgRxHel2aMq3FPim01WhldO9ivUlHoLQ_6lwnJazqEDbjjBXfR8RzQXxK5fW1kUSDJyclSz5zIgzcGbnR5nxMvVkCfhL4JVCeZXYlXhCEa_JHoRP6z0AaGQztxo_D8PFP2r96nMoPxBUh_Omk7HH3x8xzW8ERhYANlW96ALOvINvenikpnXp-xRFQIacUlkPGhkn-83kDKtIB-Fduxf47e78gbuXsMYTMSWInqDInLr0426vGu-AJ8fmJAdV4Gn-9oHBEw78C94y6aZfrrrG7LS30NeAECNS62ra2jPhi4nNUoT1ss3_Ggpzarl_bFnv2zE6jmvhvrnQpex7WdpVsd5HjSnmlVB8eaDI1MbvRrwku17j4BKWCW_B3AIWsw
+x-rtoken-id: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGNhOGJkMzJjMTUxYjQyNWJhZDk5MzIiLCJlbWFpbCI6InZkaGxvbmcxMjAyQGdtYWlsLmNvbSIsImlhdCI6MTY5NDk1ODc4MSwiZXhwIjoxNjk1NTYzNTgxfQ.SVARJo2kAXPhgAO85eincoOFjSua-Dni7xHL48zuh2jpP6x_1U7uZll3GYqS4D2blG85-O7HgRHTECe-vaBalKISlVbGJFb1-LUwXWkFmIop0NoSAsLiR9pva0sIEcG4wBSLx13IGrk1l7jx6wvRuMTPX1bJWVF571u0VqLvAEfmxEdl1cRdfzFizQm_Qtkt_7OGCYyaydPQejINtaIK2q9_V3ig9sq64gz8B-BarPZf2sj0YKGV9eSLci5QJUGjgYYFykHe3qYtOFFvGnMDOt5HMxNvLrq3c1bB6Uj2Wg2g9f32yK7OpZKk26ZA1CelBtMQfkoqaB8pOJQbNb7E5I_28zD4OPCnv4UHjyMQEyMo6uI6P-wbL6KI7pL8PXf0jVdLQNOwlWVBwVn5n5Ay_chV53eRsqGt2BJbycQNYJrAmLqCMblk8cjTsl2siDEQCIh2q_RqDU9aJ7Qee3AESwMqabElKMH6WOH1H4vOacAGc6LPpZitQLxVLt6kroJbiA3bIgwDvb06-UP8Yrjnb01pYn0WuVstAXfQcCCP5CuXHtSZ4eG-Vhb1Jazs4UpQBE4tmT7c7PcNb7_3M7-FBp2uV3c4DPGYPIAlS7a340j3aNLaYA8AcnMacG3EjQ1xQHaX7pq-_7gb57aF2pQKK6ALFn95ge5u3g4VwRepRmM
+
+### GET DISCOUNT AMOUNT
+POST {{url_dev}}/discount/amount
+content-type: application/json
+x-api-key: secrectapikey
+x-client-id: 64ca8bd32c151b425bad9932
+authorization: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGNhOGJkMzJjMTUxYjQyNWJhZDk5MzIiLCJlbWFpbCI6InZkaGxvbmcxMjAyQGdtYWlsLmNvbSIsImlhdCI6MTY5NDk1ODc4MSwiZXhwIjoxNjk1MTMxNTgxfQ.IO0EHLPrQJ5aZVLLDDgzj5rqcnrn6ZjkHJyiPC1j2td9my4lnFSTDZ6GZcqhuqgSIIp4JNUvaV8fHjn1kwEMhFHO_uWBjAlWit7H2ms2xb6BVLOxH06SZxR4UAzOP6Ab_8Bt90ISbiw4kH3JNaWtbvJknT2vF-xJoKpgHH77Kn_eBdVmQXat82BYifum5FdkAHUprQqRPjo0_CN9NW1gngY52Zk_F2scpWoA8bGdpWqecY9-bgY4R7Lz-G5s9DZ5vUBknWeuEAJ0mZwROi4nXC7dpt1bzEsoN0KkORn4doWuMbgRxHel2aMq3FPim01WhldO9ivUlHoLQ_6lwnJazqEDbjjBXfR8RzQXxK5fW1kUSDJyclSz5zIgzcGbnR5nxMvVkCfhL4JVCeZXYlXhCEa_JHoRP6z0AaGQztxo_D8PFP2r96nMoPxBUh_Omk7HH3x8xzW8ERhYANlW96ALOvINvenikpnXp-xRFQIacUlkPGhkn-83kDKtIB-Fduxf47e78gbuXsMYTMSWInqDInLr0426vGu-AJ8fmJAdV4Gn-9oHBEw78C94y6aZfrrrG7LS30NeAECNS62ra2jPhi4nNUoT1ss3_Ggpzarl_bFnv2zE6jmvhvrnQpex7WdpVsd5HjSnmlVB8eaDI1MbvRrwku17j4BKWCW_B3AIWsw
+x-rtoken-id: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGNhOGJkMzJjMTUxYjQyNWJhZDk5MzIiLCJlbWFpbCI6InZkaGxvbmcxMjAyQGdtYWlsLmNvbSIsImlhdCI6MTY5NDk1ODc4MSwiZXhwIjoxNjk1NTYzNTgxfQ.SVARJo2kAXPhgAO85eincoOFjSua-Dni7xHL48zuh2jpP6x_1U7uZll3GYqS4D2blG85-O7HgRHTECe-vaBalKISlVbGJFb1-LUwXWkFmIop0NoSAsLiR9pva0sIEcG4wBSLx13IGrk1l7jx6wvRuMTPX1bJWVF571u0VqLvAEfmxEdl1cRdfzFizQm_Qtkt_7OGCYyaydPQejINtaIK2q9_V3ig9sq64gz8B-BarPZf2sj0YKGV9eSLci5QJUGjgYYFykHe3qYtOFFvGnMDOt5HMxNvLrq3c1bB6Uj2Wg2g9f32yK7OpZKk26ZA1CelBtMQfkoqaB8pOJQbNb7E5I_28zD4OPCnv4UHjyMQEyMo6uI6P-wbL6KI7pL8PXf0jVdLQNOwlWVBwVn5n5Ay_chV53eRsqGt2BJbycQNYJrAmLqCMblk8cjTsl2siDEQCIh2q_RqDU9aJ7Qee3AESwMqabElKMH6WOH1H4vOacAGc6LPpZitQLxVLt6kroJbiA3bIgwDvb06-UP8Yrjnb01pYn0WuVstAXfQcCCP5CuXHtSZ4eG-Vhb1Jazs4UpQBE4tmT7c7PcNb7_3M7-FBp2uV3c4DPGYPIAlS7a340j3aNLaYA8AcnMacG3EjQ1xQHaX7pq-_7gb57aF2pQKK6ALFn95ge5u3g4VwRepRmM
+
+{
+    "discount_code": "ACCEL-1202",
+    "discount_shop": "64ca8bd32c151b425bad9932",
+    "user_id": "1",
+    "products": [
+        {
+            "_id": "64ff3eccd02f39200627c861",
+            "quantity": 5,
+            "price": 1202
+        },
+        {
+            "_id": "65008b4e09994bef47972dc8",
+            "quantity": 3,
+            "price": 100
+        }
+    ]
+}
