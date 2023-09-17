@@ -1,4 +1,5 @@
 const _ = require("lodash");
+const { Types } = require("mongoose");
 
 const getInformationData = (obj, array = []) => {
   return _.pick(obj, array);
@@ -39,10 +40,13 @@ const updateNestedObjectParse = (obj) => {
   return final;
 };
 
+const convertToObjectIdMongoDb = (id) => Types.ObjectId(id);
+
 module.exports = {
   getInformationData,
   getSelectData,
   getUnSelectData,
   removeUndefinedObject,
   updateNestedObjectParse,
+  convertToObjectIdMongoDb,
 };
