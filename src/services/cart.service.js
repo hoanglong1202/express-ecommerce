@@ -36,9 +36,41 @@ class CartService {
     const data = {
       productId,
       quantity: quantity - quantity_old,
+    };
+
+    const result = await updateUserCartQuantity({ userId, data });
+    return result;
+  }
+
+  static async deleteUserCart({ userId, productId }) {
+    const query = {
+      cart_userId: userId,
+    };
+
+    const foundCart = await cart.findOne(query);
+    if (!foundCart) {
+      throw new NotFoundError("Cart not exist");
     }
 
-    const result = await updateUserCartQuantity({ userId, data })
+    const updateSet = {
+      $pull: {
+        cart_products: {
+          productId,
+        },
+      },
+    };
+
+    const result = await cart.updateOne(query, updateSet);
+
+    return result;
+  }
+
+  static async getUserCart({ userId }) {
+    const query = {
+      cart_userId: userId,
+    };
+    const result = await cart.findOne(query).lean();
+
     return result;
   }
 }
