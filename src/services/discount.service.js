@@ -103,7 +103,6 @@ class DiscountService {
       unselect: ["__v"],
       model: discount,
     };
-    console.log("AAAAAAAAAAA")
     const result = await findAllDiscountCodeUnselect(query);
 
     return result;
@@ -132,6 +131,8 @@ class DiscountService {
     if (!discount_max_uses) {
       throw new BadRequestError("Discount is out of number!");
     }
+
+    console.log(products)
 
     const totalOrder = products.reduce((acc, product) => {
       return acc + product.price * product.quantity;

@@ -2,7 +2,7 @@ const { BadRequestError } = require("../core/error.response");
 const { Created, Ok } = require("../core/success.response");
 const CartService = require("../services/cart.service");
 
-class ProductController {
+class CartController {
   addToCart = async (req, res, next) => {
     const result = await CartService.addToCart({
       product: req.body.product,
@@ -40,4 +40,4 @@ class ProductController {
   };
 }
 
-module.exports = new ProductController();
+module.exports = new CartController();

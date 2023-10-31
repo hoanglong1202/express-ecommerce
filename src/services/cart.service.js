@@ -80,7 +80,6 @@ class CartService {
       cart_state: "active",
     });
     if (!foundCart && quantity >= 0) {
-      console.log("AAA")
       return await CartService.createUserCart({ userId, product: data });
     }
 

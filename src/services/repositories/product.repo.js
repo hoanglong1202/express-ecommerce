@@ -1,6 +1,6 @@
 const { product } = require("../../models/product.model");
 const { Types } = require("mongoose");
-const { getUnSelectData, getSelectData } = require("../../utils");
+const { getUnSelectData, getSelectData, convertToObjectIdMongoDb } = require("../../utils");
 
 const findAllDraftForShop = async ({ query, limit, skip }) => {
   return await queryProduct({ query, limit, skip });
@@ -90,7 +90,7 @@ const findAllProducts = async ({ limit, page, sort, filter, select }) => {
   return await product.find(filter).sort(sortBy).skip(skip).limit(limit).select(getSelectData(select)).lean();
 };
 
-const findProduct = async ({ product_id, unselect }) => {
+const findProduct = async ({ product_id, unselect = ["__v"] }) => {
   return await product.findById(product_id).select(getUnSelectData(unselect)).lean();
 };
 
@@ -106,6 +106,22 @@ const updateProduct = async ({ product_id, payload, model, isNew = true }) => {
   );
 };
 
+const checkProductByServer = async ({ products = [] }) => {
+  return await Promise.all(
+    products.map(async (product) => {
+      const foundProduct = await findProduct({ product_id: convertToObjectIdMongoDb(product.productId) });
+
+      if (foundProduct) {
+        return {
+          price: foundProduct.product_price,
+          productId: product.productId,
+          quantity: product.quantity,
+        };
+      }
+    })
+  );
+};
+
 module.exports = {
   findAllDraftForShop,
   findAllPublishForShop,
@@ -115,4 +131,5 @@ module.exports = {
   findAllProducts,
   findProduct,
   updateProduct,
+  checkProductByServer,
 };

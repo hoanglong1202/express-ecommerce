@@ -67,7 +67,7 @@ const authentication = asyncHandler(async (req, res, next) => {
   if (!keyStore) {
     throw new NotFoundError("Invalid request");
   }
-
+  console.log(clientId)
   const refreshToken = req.headers[HEADER.REFRESH_TOKEN];
   if (refreshToken) {
     try {
