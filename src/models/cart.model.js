@@ -15,15 +15,15 @@ const cartSchema = new Schema(
     cart_products: {
       type: Array,
       require: true,
-      default: [],
-    },
+      default: []
+  },
     cart_count_product: {
       type: Number,
       default: 0,
     },
     cart_userId: {
-      type: Number,
-      default: true,
+      type: Schema.Types.ObjectId,
+      ref: "Shop",
     },
   },
   {
