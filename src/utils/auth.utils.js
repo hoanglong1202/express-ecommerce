@@ -5,12 +5,12 @@ const crypto = require("crypto");
 const createTokenPair = (payload, privateKey) => {
   const accessToken = jwt.sign(payload, privateKey, {
     algorithm: "RS256",
-    expiresIn: "2 days",
+    expiresIn: "30 days",
   });
 
   const refreshToken = jwt.sign(payload, privateKey, {
     algorithm: "RS256",
-    expiresIn: "7 days",
+    expiresIn: "30 days",
   });
 
   return { accessToken, refreshToken };

@@ -5,7 +5,7 @@ const order = require("../models/order.model");
 const product = require("../models/product.model");
 const { convertToObjectIdMongoDb } = require("../utils");
 const { getDiscountAmount } = require("./discount.service");
-const { acquireLock, releaseLock } = require("./redis.service");
+// const { acquireLock, releaseLock } = require("./redis.service");
 const { findCartById } = require("./repositories/cart.repo");
 const { findAllProducts, findProduct, checkProductByServer } = require("./repositories/product.repo");
 
@@ -78,12 +78,12 @@ class CheckoutService {
     for (let index = 0; index < products.length; index++) {
       const { productId, quantity } = products[index];
 
-      const keyLock = await acquireLock({ product_id: productId, quantity, cart_id: cartId });
+      // const keyLock = await acquireLock({ product_id: productId, quantity, cart_id: cartId });
       acquireProduct.push(keyLock ? true : false);
 
-      if (keyLock) {
-        await releaseLock(keyLock)
-      }
+      // if (keyLock) {
+      //   await releaseLock(keyLock)
+      // }
     }
 
     if(acquireProduct.includes(false)) {
