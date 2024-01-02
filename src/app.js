@@ -7,12 +7,12 @@ const { checkOverload } = require("./helpers/check.connect");
 
 const app = express();
 // test redis
-const productTest = require("./test/product.service.test");
-require("./test/inventory.service.test");
+// const productTest = require("./test/product.service.test");
+// require("./test/inventory.service.test");
 
-(async () => {
-  await productTest.purchaseProduct("long pro", 1202);
-})();
+// (async () => {
+//   await productTest.purchaseProduct("long pro", 1202);
+// })();
 
 // init middleware
 app.use(morgan("dev"));
